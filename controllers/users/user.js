@@ -4,10 +4,6 @@ const jwt = require('jsonwebtoken');
 
 exports.index = (req, res) => {
     const categoryFilter = req.query.categoria ? parseInt(req.query.categoria) : null; // Convertir a número
-
-
-
-
     let query = `
       SELECT 
         p.id,
@@ -68,10 +64,13 @@ exports.addcar = (req, res) => {
 
 
 exports.logout = (req, res) => {
-    req.session.destroy(() => {
-        res.redirect('/');
-    });
+    // Elimina la cookie 'authToken' que contiene el JWT
+    res.clearCookie('authToken');
+
+    // Opcionalmente, puedes redirigir al usuario a la página de login o a cualquier otra página
+    res.redirect('/login');
 }
+
 
 
 exports.register = async (req, res) => {
