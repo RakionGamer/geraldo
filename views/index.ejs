@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tienda de Ropa</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="bg-gray-100 relative">
+  <!-- Barra superior con sesión y carrito -->
+  <div class="absolute top-4 right-4 flex items-center space-x-4 z-20">
+    <!-- Botón de cerrar sesión -->
+    <a href="/logout" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg">
+      Cerrar sesión
+    </a>
+    <!-- Carrito con la cantidad de productos -->
+    <a href="/carrito" class="relative bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg">
+      <i class="fas fa-shopping-cart"></i> Carrito 
+      <% if (carritoCount > 0) { %>
+        <span class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs px-2 py-1"><%= carritoCount %></span>
+      <% } %>
+    </a>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="relative w-full h-screen bg-cover bg-center" style="background-image: url('https://source.unsplash.com/1600x900/?fashion');">
+    <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-center text-white p-6">
+      <h1 class="text-5xl font-bold mb-4">Descubre la mejor moda</h1>
+      <p class="text-lg mb-6">Compra las últimas tendencias a los mejores precios</p>
+      <a href="#productos" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg text-lg">
+        <i class="fas fa-shopping-cart"></i> Ver Productos
+      </a>
+    </div>
+  </section>
+
+  <!-- Categorías -->
+  <section class="container mx-auto px-4 py-10">
+    <h2 class="text-3xl font-semibold text-center mb-6">Categorías</h2>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a href="/" class="px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600 w-auto sm:w-1/2 md:w-1/4 lg:w-auto">
+        Todas
+      </a>
+      <% categorias.forEach(function(cat) { %>
+        <a href="/?categoria=<%= cat.id %>" class="px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600 w-auto sm:w-1/2 md:w-1/4 lg:w-auto <%= selectedCategory == cat.id ? 'bg-blue-700' : '' %>">
+          <%= cat.categoria %>
+        </a>
+      <% }); %>
+    </div>
+  </section>
+  
+
+  <!-- Productos -->
+  <section id="productos" class="container mx-auto px-4 py-10">
+    <h2 class="text-3xl font-semibold text-center mb-6">Nuestros Productos</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <% if (productos.length === 0) { %>
+        <p class="text-center text-gray-600">No hay productos disponibles.</p>
+      <% } else { %>
+        <% productos.forEach(function(prod) { %>
+          <div class="bg-white rounded shadow p-4 text-center">
+            <img src="<%= prod.imagen_url || 'https://via.placeholder.com/150' %>" alt="<%= prod.productos %>" class="h-40 mx-auto mb-4">
+            <h3 class="text-xl font-bold mb-2"><%= prod.productos %></h3>
+            <p class="text-gray-600"><i class="fas fa-tag"></i> <%= prod.categoria_nombre || 'Sin categoría' %></p>
+            <p class="text-gray-600"><i class="fas fa-dollar-sign"></i> $<%= prod.precio %></p>
+            <form action="/agregar-carrito/<%=prod.id %>" method="POST">
+            <button class="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded add-to-cart" data-id="<%= prod.id %>">
+              <i class="fas fa-cart-plus"></i> Añadir al carrito
+            </button>
+            </form>
+          </div>
+        <% }); %>
+      <% } %>
+    </div>
+  </section>
+
+</body>
+
+</html>

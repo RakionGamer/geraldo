@@ -1,0 +1,38 @@
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carrito de Compras</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+  <header class="bg-white shadow p-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-gray-800"><i class="fas fa-shopping-cart"></i> Carrito de Compras</h1>
+    <a href="/" class="text-blue-500 hover:underline">Seguir comprando</a>
+  </header>
+  
+  <main class="container mx-auto px-4 py-6">
+    <h2 class="text-3xl font-semibold mb-4">Productos en tu carrito</h2>
+    <% if (carrito.length === 0) { %>
+      <p class="text-gray-600">Tu carrito está vacío.</p>
+    <% } else { %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <% carrito.forEach(function(item) { %>
+          <div class="bg-white p-4 rounded shadow flex justify-between items-center">
+            <div>
+              <h3 class="text-xl font-bold"><%= item.productos %></h3>
+              <p class="text-gray-600">Precio: $<%= item.precio %></p>
+              <p class="text-gray-600">Cantidad: <%= item.cantidad %></p>
+            </div>
+            <a href="/eliminar-carrito/<%= item.id %>">
+              <button class="text-red-500 hover:text-red-700"><i class="fas fa-trash"></i> Quitar</button>
+            </a>
+          </div>
+        <% }); %>
+      </div>
+
+    <% } %>
+  </main>
+</body>
+</html>
