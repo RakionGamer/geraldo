@@ -4,7 +4,7 @@ function verificarToken(req, res, next) {
     const token = req.cookies.authToken;
   
     if (!token) {
-        return res.status(403).send("Acceso denegado. Token no proporcionado.");
+        res.redirect('/login')
     }
   
     const secretKey = 'key'; // Debe coincidir con la clave utilizada para generar el token
